@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   mid-autumn:
-    image: docker.io/phambaduong/mid-autumn:latest
+    image: docker.io/phambaduong/mid-autumn:movie-platform:latest
     container_name: mid-autumn
     restart: always
     ports:
