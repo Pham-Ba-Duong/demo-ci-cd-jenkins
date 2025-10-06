@@ -1,0 +1,25 @@
+<section class="hero">
+  <div class="moon"></div>
+  <div class="lantern lantern1"></div>
+  <div class="lantern lantern2"></div>
+  <div class="lantern lantern3"></div>
+  <div class="cloud cloud1"></div>
+  <div class="cloud cloud2"></div>
+  <div class="text-box">
+    <h1 class="title">🌕 Chúc Mừng Trung Thu 🌕</h1>
+    <p class="subtitle">Trăng rằm tỏa sáng – Tình thân đong đầy</p>
+    <a href="/gallery" class="btn">Khám phá thêm</a>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    gsap.to(".lantern1", { y: -20, duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut" });
+    gsap.to(".lantern2", { y: -15, duration: 2.5, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 1 });
+    gsap.to(".lantern3", { y: -25, duration: 3.2, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.5 });
+    gsap.to(".cloud1", { x: 300, duration: 40, repeat: -1, yoyo: true, ease: "linear" });
+    gsap.to(".cloud2", { x: -300, duration: 60, repeat: -1, yoyo: true, ease: "linear" });
+    gsap.from(".title", { opacity: 0, y: 50, duration: 2, ease: "power2.out" });
+    gsap.from(".subtitle", { opacity: 0, y: 30, duration: 2.5, delay: 0.5 });
+  });
+</script>
