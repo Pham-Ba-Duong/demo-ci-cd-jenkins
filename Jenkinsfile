@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "movie-platform"
-        DOCKER_USER = "phambaduong" 
+        DOCKER_USER = "phambaduong"
     }
 
     stages {
@@ -21,9 +21,9 @@ pipeline {
                     usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh '''
                         echo "=== Building Docker Image ==="
-                        docker build -t docker.io/$DOCKER_USER/$IMAGE_NAME:latest .
+                        docker build -t $DOCKER_USER/$IMAGE_NAME:latest .
                         echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                        docker push docker.io/$DOCKER_USER/$IMAGE_NAME:latest
+                        docker push $DOCKER_USER/$IMAGE_NAME:latest
                     '''
                 }
             }
@@ -37,17 +37,42 @@ pipeline {
                 ]) {
                     sh '''
                         echo "=== Starting local deployment ==="
+                        # Tạo thư mục project nếu chưa có
                         mkdir -p ~/project
+                        
+                        # Copy file docker-compose.prod.yml từ Jenkins Credential
                         cp $DOCKER_COMPOSE_PATH ~/project/docker-compose.yml
                         cd ~/project
+                        
+                        # Tạo file .env từ Credential
                         echo "$ENV_DATA" > .env
+                        
+                        # Pull image mới
                         docker compose --env-file .env pull
+                        
+                        # Dừng container cũ nếu có
                         docker compose --env-file .env down
+                        
+                        # Chạy container mới
                         docker compose --env-file .env up -d
+                        
+                        # Dọn dẹp các image cũ
                         docker image prune -f
                     '''
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            echo "=== Pipeline finished ==="
+        }
+        success {
+            echo "✅ Deployment succeeded!"
+        }
+        failure {
+            echo "❌ Deployment failed!"
         }
     }
 }
