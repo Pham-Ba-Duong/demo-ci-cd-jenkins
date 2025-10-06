@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/Pham-BaDuong/demo-ci-cd-jenkins.git',
+                    url: 'https://github.com/Pham-Ba-Duong/demo-ci-cd-jenkins.git',
                     credentialsId: 'github-pat'
             }
         }
